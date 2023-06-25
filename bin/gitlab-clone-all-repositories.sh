@@ -1,5 +1,8 @@
 #!/bin/bash
 
+# Go to the directory where this script is located
+cd $( dirname -- "$0"; )
+
 # Parse command-line options
 while [[ "$#" -gt 0 ]]; do
     case $1 in
