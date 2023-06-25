@@ -62,7 +62,7 @@ do
     jq -r '.[] | "\(.path_with_namespace) \(.http_url_to_repo)"' | \
     while read path repo; do
       mkdir -p "$(dirname "$path")"
-      git -C "$(dirname "$path")" clone "$repo" >/dev/null || git -C "$(dirname "$path")" pull "$repo" >/dev/null
+      git -C "$(dirname "$path")" clone "$repo" >/dev/null
     done
 
   # Sleep for a while to avoid hitting rate limits
@@ -73,6 +73,9 @@ do
   # Increment page number
   page=$((page + 1))
 done
+
+# Find all folders from the project and perform a git pull
+find "$GROUP_PATH" -mindepth 1 -maxdepth 1 -type d -exec git -C {} pull \;
 
 # Rename .git into original name
 mv ../.gitbak ../.git
