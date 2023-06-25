@@ -59,7 +59,7 @@ do
     jq -r '.[] | "\(.path_with_namespace) \(.http_url_to_repo)"' | \
     while read path repo; do
       mkdir -p "$(dirname "$path")"
-      git -C "$(dirname "$path")" clone "$repo" >/dev/null || git -C "$(dirname "$path")" pull "$repo" >/dev/null
+      git -C ~/"$(dirname "$path")" clone "$repo" >/dev/null || git -C ~/"$(dirname "$path")" pull "$repo" >/dev/null
     done
 
   # Sleep for a while to avoid hitting rate limits
