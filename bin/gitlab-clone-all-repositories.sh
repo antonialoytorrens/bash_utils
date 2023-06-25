@@ -51,6 +51,9 @@ echo "Number of pages: $NUM_PAGES"
 
 page=1
 
+# Workaround: rename .git folder of this repo another name
+mv ../.git ../.gitbak
+
 # While page number is less than or equal to total number of pages
 while [ $page -le $NUM_PAGES ]
 do
@@ -59,7 +62,7 @@ do
     jq -r '.[] | "\(.path_with_namespace) \(.http_url_to_repo)"' | \
     while read path repo; do
       mkdir -p "$(dirname "$path")"
-      git -C ~/"$(dirname "$path")" clone "$repo" >/dev/null || git -C ~/"$(dirname "$path")" pull "$repo" >/dev/null
+      git -C "$(dirname "$path")" clone "$repo" >/dev/null || git -C "$(dirname "$path")" pull "$repo" >/dev/null
     done
 
   # Sleep for a while to avoid hitting rate limits
@@ -70,3 +73,6 @@ do
   # Increment page number
   page=$((page + 1))
 done
+
+# Rename .git into original name
+mv ../.gitbak ../.git
