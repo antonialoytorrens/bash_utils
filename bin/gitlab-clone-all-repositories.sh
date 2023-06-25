@@ -1,5 +1,10 @@
 #!/bin/bash
 
+GITLAB_DOMAIN='https://gitlab.com'  # change this to your GitLab domain
+GROUP_PATH='example_group'  # change this to your group path
+PER_PAGE=100  # max amount of projects per page
+DELAY=5  # delay between requests in seconds
+
 # Go to the directory where this script is located
 cd $( dirname -- "$0"; )
 
@@ -31,11 +36,6 @@ if ! command -v jq &> /dev/null; then
   echo "jq is not installed. Please install jq and rerun the script."
   exit 1
 fi
-
-GITLAB_DOMAIN='https://git.abscue.de'  # change this to your GitLab domain
-GROUP_PATH='obp'  # change this to your group path
-PER_PAGE=100  # max amount of projects per page
-DELAY=5  # delay between requests in seconds
 
 # Get number of pages
 NUM_PAGES=$(curl --silent --head "${GITLAB_DOMAIN}/api/v4/groups/${GROUP_PATH}/projects?include_subgroups=true&per_page=${PER_PAGE}" | \
